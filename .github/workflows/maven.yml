@@ -30,7 +30,11 @@ jobs:
       - name: Run OOP Logging Demo
         run: |
           java -Dlog4j.configurationFile=src/main/resources/log4j2.xml \
-               -cp target/oop-logging-demo-1.0-SNAPSHOT.jar com.example.Main
+               -cp target/oop-logging-demo-1.0-SNAPSHOT.jar com.example.oop_logging_demo.Main
+
+
+
+
 
       # Upload logs as artifact
       - name: Upload log file
