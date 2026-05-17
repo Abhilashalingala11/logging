@@ -1,0 +1,40 @@
+name: OOP Logging Demo CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Java
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Build with Maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      # Run the OOP Logging Demo
+      - name: Run OOP Logging Demo
+        run: |
+          java -Dlog4j.configurationFile=src/main/resources/log4j2.xml \
+               -cp target/oop-logging-demo-1.0-SNAPSHOT.jar com.example.Main
+
+      # Upload logs as artifact
+      - name: Upload log file
+        uses: actions/upload-artifact@v3
+        with:
+          name: game-logs
+          path: gameLogs.log
