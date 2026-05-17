@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up Java
+      # Set up Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -24,22 +24,15 @@ jobs:
 
       # Build with Maven
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B clean package --file pom.xml
 
-      # Run the OOP Logging Demo
+      # Run the OOP Logging Demo using the JAR manifest
       - name: Run OOP Logging Demo
-        run: |
-          java -Dlog4j.configurationFile=src/main/resources/log4j2.xml \
-               -cp target/oop-logging-demo-1.0-SNAPSHOT.jar com.example.oop_logging_demo.Main
+        run: java -jar target/oop-logging-demo-1.0-SNAPSHOT.jar
 
-
-
-
-
-      # Upload logs as artifact
+      # Upload logs as artifact (use v4)
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
           name: game-logs
           path: gameLogs.log
-          
